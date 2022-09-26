@@ -1,3 +1,9 @@
+/*
+ * HW-1 - bbcp.c - bare-bones copy a file
+ * Author: Sri Dhanush Reddy Kondapalli
+ * Email: kreddy1@stevens.edu
+*/
+
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -10,16 +16,23 @@
 int main(int argc,char* argv[])
 {
 
+/*
+* This is a very simple program for copying a file
+* It requires two arguments: source and target files
+* The source file must be a legitimate file, not a directory
+* The target can be either a file or a directory
+*/	
+	
 int desptr1, srcptr;
 char c[1024] = {0};
 int numRead;
 struct stat buf;
 
-//opening input file to read  and target file to copy
+/*opening input file to read  and target file to copy*/
 srcptr = open(argv[1], O_RDONLY);
 desptr1 = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 
-//error checks on return of function calls while opening of file and if file exists
+/*error checks on return of function calls while opening of file and if file exists*/
 if (argc != 3)
 {
         fprintf(stderr, "Error-Insufficient Arguments (%d/3)\n", argc);
@@ -67,7 +80,7 @@ if(S_ISDIR(buf.st_mode)) {
 	strcat(argv[2],basename(strdup(argv[1])));
 }
 
-//doing read operation and then write to detination file
+/*doing read operation and then write to detination file*/
 do
     {
         numRead = read(srcptr, c, 1);
@@ -95,7 +108,7 @@ do
     }
 while (1);
 
-//closing the opened files and checking for any error
+/*closing the opened files and checking for any error*/
 if (close(srcptr) < 0) 
 { 
         fprintf(stderr, "Cannot close file %s \n", argv[1]); 
