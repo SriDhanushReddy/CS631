@@ -1,17 +1,31 @@
-TARGET = ls
-CC = cc
-CFLAGS  = -ansi -g -Wall -Werror -Wextra -Wformat=2 -Wjump-misses-init -Wlogical-op -Wpedantic -Wshadow
-RM = rm -f
+#
+# In order to execute this "Makefile" just type "make"
+#	A. Delis (ad@di.uoa.gr)
+#
 
-default: $(TARGET)
-all: default
+OBJS	= main.o ls.o
+SOURCE	= main.c ls.c
+HEADER	= ls.h
+OUT	= myls
+CC	 = gcc
+FLAGS	 = -g -c -Wall
+LFLAGS	 = 
+# -g option enables debugging mode 
+# -c flag generates object code for separate files
 
-$(TARGET): ls.o
-	$(CC) $(CFLAGS) -o $(TARGET) ls.o
 
-ls.o: ls.c ls.h
-	$(CC) $(CFLAGS) -c ls.c
+all: $(OBJS)
+	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
 
 
+# create/compile the individual files >>separately<<
+main.o: main.c
+	$(CC) $(FLAGS) main.c 
+
+ls.o: ls.c
+	$(CC) $(FLAGS) ls.c 
+
+
+# clean house
 clean:
-	$(RM) $(TARGET) *.o 
+	rm -f $(OBJS) $(OUT)
